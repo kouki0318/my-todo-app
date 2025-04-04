@@ -10,19 +10,19 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest  # Ubuntu環境で実行
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x] # Node.js 18以上を指定
 
     steps:
-      - name: Check out code
-        uses: actions/checkout@v2  # コードをチェックアウト
+      - uses: actions/checkout@v3
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2  # Node.jsのセットアップ
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
         with:
-          node-version: '14'  # Node.jsのバージョンを指定
+          node-version: ${{ matrix.node-version }}
 
-      - name: Install dependencies
-        run: npm install  # 依存関係をインストール
-
-      - name: Run tests
-        run: npm test  # テストを実行
+      - run: npm ci
+      - run: npm test
