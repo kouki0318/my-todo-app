@@ -1,0 +1,28 @@
+name: Node.js CI
+
+on:
+  push:
+    branches:
+      - master  # 'master'ブランチにpushされた場合に実行
+  pull_request:
+    branches:
+      - master  # 'master'ブランチへのPR時に実行
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # Ubuntu環境で実行
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2  # コードをチェックアウト
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2  # Node.jsのセットアップ
+        with:
+          node-version: '14'  # Node.jsのバージョンを指定
+
+      - name: Install dependencies
+        run: npm install  # 依存関係をインストール
+
+      - name: Run tests
+        run: npm test  # テストを実行
